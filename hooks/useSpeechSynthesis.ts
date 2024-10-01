@@ -1,19 +1,12 @@
 import React from "react";
 import playAudio from "@/utils/playAudio";
 
-export interface VisemeFrame {
-  offset: number;
-  id: number;
-}
-
 type MessageData = {
-  visemes: VisemeFrame[];
   filename: string;
   audioBuffer: { data: Uint8Array };
 };
 
 export default function useSpeechSynthesis() {
-  const [visemeID, setVisemeID] = React.useState(0);
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [text, setText] = React.useState("");
   const [avatarSay, setAvatarSay] = React.useState("");
@@ -37,7 +30,7 @@ export default function useSpeechSynthesis() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ message: text }),
+      body: JSON.stringify({ message: text }), 
     });
 
     if (!response.ok) {
@@ -52,11 +45,11 @@ export default function useSpeechSynthesis() {
 
   React.useEffect(() => {
     if (isPlaying && messageData) {
-      playAudio({ setVisemeID, visemes: messageData.visemes, audioBuffer: messageData.audioBuffer }).then(() => {
+      playAudio({ audioBuffer: messageData.audioBuffer }).then(() => {
         setIsPlaying(false);
       });
     }
   }, [isPlaying, messageData]);
 
-  return { visemeID, setVisemeID, isPlaying, text, avatarSay, handleTextChange, handleSynthesis };
+  return { isPlaying, text, avatarSay, messageData, handleTextChange, handleSynthesis };
 }

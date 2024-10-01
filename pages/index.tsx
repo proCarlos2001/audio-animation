@@ -8,7 +8,7 @@ const SoundWave = dynamic(() => import('@/components/avatar/SoundWave'), {
 });
 
 export default function AvatarApp() {
-  const {isPlaying, text, avatarSay, handleTextChange, handleSynthesis, messageData } = useSpeechSynthesis();
+  const { isPlaying, text, avatarSay, handleTextChange, handleSynthesis, messageData } = useSpeechSynthesis();
   let ttsAudio: HTMLAudioElement | null = null;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -17,9 +17,9 @@ export default function AvatarApp() {
   };
 
   return (
-    <div className="w-screen h-screen items-center justify-center flex flex-col mx-auto">
-      <form onSubmit={handleSubmit}>
-        <div className="flux justify-center items-center w-[500px] relative">
+    <div className="w-screen h-screen flex flex-col items-center justify-center mx-auto">
+      <form onSubmit={handleSubmit} className="flex flex-col items-center">
+        <div className="flux justify-center items-center w-[500px] relative flex flex-col items-center">
           {messageData && (
             <SoundWave 
               audioBuffer={messageData.audioBuffer} 
@@ -27,13 +27,13 @@ export default function AvatarApp() {
             />
           )}
           {avatarSay ? (
-            <div className="absolute top-[-50px] left-[400px] w-[400px] bg-white p-2 rounded-lg shadow-lg text-xs">
+            <div className="absolute top-[-50px] w-[400px] bg-white p-2 rounded-lg shadow-lg text-xs text-center">
               {avatarSay}
             </div>
           ) : null}
-          <h1 className="text-2xl font-bold text-center text-blue-600">Animation with Audio, ask a question</h1>
+          <h1 className="text-2xl font-bold text-center text-blue-600 mt-4">Animation with Audio, ask a question</h1>
         </div>
-        <div className="h-10 relative my-4">
+        <div className="h-10 relative my-4 flex justify-center">
           <input
             type="text"
             value={text}
